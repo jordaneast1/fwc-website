@@ -264,7 +264,7 @@ export default function ScreenTextEngine(
   }
 
   type MDtoken = {
-    type: "h1" | "h2" | "h3" | "p" | "br" | "img";
+    type: "h1" | "h2" | "h3" | "p" | "br" | "img" | "video";
     emphasis: boolean;
     value: string;
   };
@@ -314,6 +314,14 @@ export default function ScreenTextEngine(
       else if (currentToken === undefined && md[i] === "!") {
         currentToken = {
           type: "img",
+          emphasis: false,
+          value: "",
+        };
+      }
+      // video
+      else if (currentToken === undefined && md[i] === "&") {
+        currentToken = {
+          type: "video",
           emphasis: false,
           value: "",
         };
@@ -383,6 +391,9 @@ export default function ScreenTextEngine(
           break;
         case "img":
           placeImage(t.value);
+          break;
+        case "video":
+          placeVideo(t.value);
           break;
         case "p":
           const words = t.value.split(" ");
@@ -686,6 +697,52 @@ export default function ScreenTextEngine(
     textureLoader.load(url, (tex) => {
       tex.magFilter = THREE.NearestFilter;
       imageFrame.material = new THREE.MeshBasicMaterial({ map: tex });
+    });
+  }
+
+  function placeVideo(val: string) {
+    const urlMatch = val.match(/\(.+\)/);
+    if (!urlMatch || urlMatch.length === 0) return;
+    const [url, rawParams] = urlMatch[0].slice(1, -1).split("?");
+    const params = new URLSearchParams(rawParams);
+
+    const aspectRatio = parseFloat(params.get("aspect") ?? "");
+    if (Number.isNaN(aspectRatio))
+      throw new Error(
+        `Error for video at: '${url}'. Video must have aspect ratio like this: '/path/to/video?aspect=1.5'`
+      );
+    const widthParam = parseFloat(params.get("width") ?? "");
+    const width = Number.isNaN(widthParam) ? 1 : widthParam;
+
+    const height = width / aspectRatio;
+
+    const videoFrame = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(width, height, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0x000000 })
+    );
+
+    videoFrame.position.set(1.4 / 2, -height * 0.5 - charNextLoc.y, -0.02);
+    if (!params.get("noflow")) charNextLoc.y += height;
+    rootGroup.add(videoFrame);
+
+    const video = document.createElement('video');
+    video.src = url;
+    video.crossOrigin = 'anonymous';
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+
+    video.addEventListener('loadeddata', () => {
+      const videoTexture = new THREE.VideoTexture(video);
+      videoTexture.minFilter = THREE.LinearFilter;
+      videoTexture.magFilter = THREE.LinearFilter;
+      videoFrame.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+      
+      video.play().catch(() => {
+        document.addEventListener('click', () => {
+          video.play();
+        }, { once: true });
+      });
     });
   }
 

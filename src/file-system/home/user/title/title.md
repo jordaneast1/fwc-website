@@ -1,12 +1,13 @@
-!(/images/ed-title.png?aspect=2&noflow=true&width=1.33)
-
+&(/videos/testVid.mp4?aspect=1&noflow=true&width=1.5)
+<!-- !(/images/ed-title.png?aspect=2&noflow=true&width=1.33) -->
 
 ##   Hi there, 
 
-#  *I'm Ed H*
+#  *Friends With Computers*
 
 ##   • Software Engineer
 ##   • Digital Designer
+
 
 
 
