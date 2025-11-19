@@ -1,5 +1,6 @@
 @import url("./collapse.css");
 @import url("./nav.css");
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&display=swap');
 
 :root {
   --color: #525252;
@@ -23,8 +24,9 @@ html,
 body {
   overflow-x: hidden;
   background-color: #f6d4b1;
-  font-family: "chill", sans-serif;
+  font-family: "Roboto Mono", monospace;
   font-size: 18px;
+  font-weight: 400;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -129,8 +131,9 @@ h1 {
   display: inline-block;
   color: #f6d4b1;
   background-color: var(--color);
-  font-family: "public-pixel", monospace;
+  font-family: "Roboto Mono", monospace;
   font-size: 2em;
+  font-weight: 700;
   padding: 16px;
   padding-top: 4px;
   padding-bottom: 8px;
@@ -145,7 +148,8 @@ h2 {
   text-align: center;
   color: #f6d4b1;
   background-color: var(--color);
-  font-family: "public-pixel", monospace;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 600;
   padding: 16px;
   padding-top: 4px;
   padding-bottom: 8px;
@@ -158,7 +162,8 @@ h3 {
   font-size: 1.2em;
   text-align: center;
   color: var(--color);
-  font-family: "public-pixel", monospace;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 500;
   padding-top: 4px;
   padding-bottom: 8px;
   margin: auto;
@@ -283,8 +288,9 @@ a:active {
 
 .btn {
   position: relative;
-  font-family: "chill", sans-serif;
+  font-family: "Roboto Mono", monospace;
   font-size: 18px;
+  font-weight: 500;
   display: inline-flex;
   gap: 0.25rem;
   box-shadow: 6px 6px 0px rgba(82, 82, 82, 0.25);

@@ -65,7 +65,8 @@ html[data-scroll="true"] nav .btn {
   background-color: #525252;
   color: #f6d4b1;
   font-size: 2em;
-  font-family: "public-pixel", monospace;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 600;
   text-decoration: none !important;
   position: fixed;
   top: 0px;
@@ -103,8 +104,9 @@ html[data-scroll="true"] nav .btn {
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: "chill", sans-serif;
+  font-family: "Roboto Mono", monospace;
   font-size: 14px;
+  font-weight: 400;
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.75);
   background-color: #525252;
   color: #f6d4b1;
