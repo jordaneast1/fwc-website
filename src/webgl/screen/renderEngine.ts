@@ -48,7 +48,7 @@ export default function ScreenRenderEngine(
     new THREE.Vector2(128, 128),
     1.1,
     0.4,
-    0
+    0.7
   );
   composer.addPass(bloomPass);
 

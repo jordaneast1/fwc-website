@@ -23,12 +23,13 @@ export default function Screen(
       new THREE.MeshBasicMaterial({ color: 0x000000 })
     );
     sceneRTT.add(videoPlane);
-    videoPlane.position.set((1.496-0.6)/2, -0.5, -0.1);
-
+    videoPlane.scale.set(1.1,1.1,1.1)
+    videoPlane.position.set(0.9, -0.5, -0.05);
+    //1.496+0.4)/2
   
   // Load video texture
     const videoElement = document.createElement('video');
-    videoElement.src = '/videos/testVid_HD.mp4';
+    videoElement.src = '/videos/testVid_HD_LONG.mp4';
     videoElement.crossOrigin = 'anonymous';
     videoElement.loop = true;
     videoElement.muted = true;
@@ -58,8 +59,7 @@ export default function Screen(
 
   const tick = (deltaTime: number, elapsedTime: number, scroll: number, screenScale: number) => {
     const invBlend = 1-scroll;
-    videoPlane.scale.set(1+invBlend,1+invBlend,1+invBlend)
-
+    //videoPlane.scale.set(1,1,1)
     screenRenderEngine.cameraRTT.left = -0.1 * screenScale - .5 * invBlend;
     screenRenderEngine.cameraRTT.right = 1.496 * screenScale - .5 * invBlend;
     // screenRenderEngine.cameraRTT.top = 0.1 * screenScale;
