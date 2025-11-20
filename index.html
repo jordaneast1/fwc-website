@@ -446,6 +446,7 @@
         }
 
         if (projectDiv) {
+          const wasExpanded = projectDiv.classList.contains('expanded');
           projectDiv.classList.toggle('expanded');
 
           // Update toggle text
@@ -456,6 +457,20 @@
             toggleText.textContent = 'read less';
           } else {
             toggleText.textContent = 'read more';
+
+            // If we're collapsing, scroll the project header to the top
+            if (wasExpanded) {
+              const projectHeader = projectDiv.querySelector('.project-header');
+              if (projectHeader) {
+                // Wait for the collapse animation to start, then scroll
+                setTimeout(() => {
+                  projectHeader.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+                }, 100);
+              }
+            }
           }
         }
       }
