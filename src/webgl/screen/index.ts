@@ -19,16 +19,16 @@ export default function Screen(
 
     // Video plane behind text but in front of background
     const videoPlane = new THREE.Mesh(
-      new THREE.PlaneBufferGeometry(1, 1 ),
+      new THREE.PlaneBufferGeometry(2, 2/(16/9) ),
       new THREE.MeshBasicMaterial({ color: 0x000000 })
     );
     sceneRTT.add(videoPlane);
-    videoPlane.position.set(0.5, -0.5, -0.1);
+    videoPlane.position.set((1.496-0.6)/2, -0.5, -0.1);
 
   
   // Load video texture
     const videoElement = document.createElement('video');
-    videoElement.src = '/videos/testVid.mp4';
+    videoElement.src = '/videos/testVid_HD.mp4';
     videoElement.crossOrigin = 'anonymous';
     videoElement.loop = true;
     videoElement.muted = true;
@@ -56,11 +56,20 @@ export default function Screen(
 
   Terminal(screenTextEngine);
 
-  const tick = (deltaTime: number, elapsedTime: number, scroll: number) => {
+  const tick = (deltaTime: number, elapsedTime: number, scroll: number, screenScale: number) => {
     const invBlend = 1-scroll;
     videoPlane.scale.set(1+invBlend,1+invBlend,1+invBlend)
+
+    screenRenderEngine.cameraRTT.left = -0.1 * screenScale - .5 * invBlend;
+    screenRenderEngine.cameraRTT.right = 1.496 * screenScale - .5 * invBlend;
+    // screenRenderEngine.cameraRTT.top = 0.1 * screenScale;
+    // screenRenderEngine.cameraRTT.bottom = -1.1 * screenScale;
+    screenRenderEngine.cameraRTT.zoom = 1;
+    screenRenderEngine.cameraRTT.updateProjectionMatrix();
+
     screenRenderEngine.tick(deltaTime, elapsedTime, scroll);
     screenTextEngine.tick(deltaTime, elapsedTime);
+
   };
 
   return { tick, screenRenderEngine, screenTextEngine };

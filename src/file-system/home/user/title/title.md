@@ -1,6 +1,3 @@
-<!-- &(/videos/testVid.mp4?aspect=1&noflow=true&width=1.5) -->
-<!-- !(/images/ed-title.png?aspect=2&noflow=true&width=1.33) -->
-
 ##   Hi there, 
 
 #  *Friends With Computers*

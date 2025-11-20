@@ -16,9 +16,10 @@ export default function ScreenRenderEngine(
   renderer: THREE.WebGLRenderer,
   sceneRTT: THREE.Scene
 ) {
-  const resolution = 512 + 64;
+  const resolution = 1024 + 64;
 
-  const cameraRTT = new THREE.OrthographicCamera(-0.1, 1.496, 0.1, -1.1, 1, 3);
+  //const cameraRTT = new THREE.OrthographicCamera(-0.1, 1.496, 0.1, -1.1, 1, 3);
+  const cameraRTT = new THREE.OrthographicCamera(-0.1, 1.5, 0.1, -1.1, 1, 3);
   sceneRTT.add(cameraRTT);
   cameraRTT.position.set(0, 0, 1);
 
@@ -102,5 +103,5 @@ export default function ScreenRenderEngine(
   material.envMapIntensity = 0.7;
   material.map = shaderToScreen.outputTexture.texture;
 
-  return { tick, material };
+  return { tick, material, cameraRTT };
 }

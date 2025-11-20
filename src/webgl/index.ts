@@ -186,13 +186,15 @@ export default function WebGL() {
 
     const screen = Screen(assists, renderer);
 
-    const planelikeGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const planelikeGeometry = new THREE.BoxGeometry(2, 2.7, 0.1);
     const plane = new THREE.Mesh(
       planelikeGeometry,
       // texture
-      new THREE.MeshBasicMaterial({ color: "blue" })
+      new THREE.MeshBasicMaterial({ color: "black" })
     );
+    plane.position.set(0,0,0.2)
     plane.scale.x = 1.33;
+    
 
     // Materials
     const computerMaterial = new THREE.MeshBasicMaterial({
@@ -206,6 +208,7 @@ export default function WebGL() {
 
     assists.screenMesh.material = screen.screenRenderEngine.material;
     computerGroup.add(assists.screenMesh);
+    assists.screenMesh.add(plane)
 
     assists.computerMesh.material = computerMaterial;
     computerGroup.add(assists.computerMesh);
@@ -243,7 +246,7 @@ export default function WebGL() {
       camera.position.z = valMap(
         scroll,
         [0, 1],
-        [-2 - sizes.portraitOffset, -10 - sizes.portraitOffset]
+        [-2.15 - sizes.portraitOffset, -10 - sizes.portraitOffset]
       );
 
       computerGroup.position.x = controlProps.computerHorizontal * zoomFac;
@@ -281,9 +284,10 @@ export default function WebGL() {
       const blend = clamp(valMap(scroll, [0, 1], [0.0, 5.0]),0,1);
       const invBlend = 1-blend;
       const crtScale = 1.0+invBlend*0.4;
-      assists.screenMesh.scale.set(1.0+invBlend,1.0+invBlend,blend+0.01);
+      const screenScale = 1.0+invBlend;
+      assists.screenMesh.scale.set(screenScale,1.0,blend+0.01);
       assists.crtMesh.scale.set(crtScale,crtScale,crtScale);
-      screen.tick(deltaTime, elapsedTime, blend);
+      screen.tick(deltaTime, elapsedTime, blend,screenScale);
 
       renderer.setRenderTarget(null);
       renderer.render(scene, camera);
