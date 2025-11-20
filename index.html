@@ -134,21 +134,32 @@
         <h1 id="projects">Projects</h1>
           <hr />
           <div class="project" style="background-color: rgb(244, 191, 171);">
-            <h2>kajoo yannaga</h2>
-            <h3>2024</h3>
-            <p>
-              <p>
-                Commission with Lendlease Arts - Melbourne Quarter and presenting partner Melbourne International Film Festival
-              </p>
+            <div class="project-toggle" onclick="toggleProject(this.parentElement)">
+              <div class="toggle-title">kajoo yannaga</div>
+              <div class="toggle-action">
+                <span>▼</span>
+                <span class="toggle-text">read more</span>
+              </div>
+            </div>
+            <div class="project-header" onclick="toggleProject(this.parentElement)">
+              <h2>kajoo yannaga</h2>
+              <h3>2024</h3>
+            </div>
+            <div class="project-hero" onclick="toggleProject(this.nextElementSibling)">
               <div class="image">
                 <img
                   src="/src/img/ky/kajoo+yannaga_image+edit_+AprilPhillips_2024_credit_JacquieManning-24_V2.webp"
                   width="100%"
-                  alt="LookToSee 01"
+                  alt="kajoo yannaga hero"
                   loading="lazy"
                   style="aspect-ratio: 2443 / 1576; "
                 />
               </div>
+            </div>
+            <div class="project-content">
+              <p>
+                Commission with Lendlease Arts - Melbourne Quarter and presenting partner Melbourne International Film Festival
+              </p>
               <p>
               <b>
               Follow the Companion Sky Spirit through a virtual walk on Country – emerging from the depths of subterranean soils to a ground-level play space, ascending to meet the celestial clouds.
@@ -264,27 +275,39 @@
               <li>Photogrammetry 3D object scans from real world objects: April Phillips</li>
             </ul>
             <p><sub>
-              The first iteration of this work was commissioned and produced by Utp as Body Place at Bankstown Art Centre. This project was assisted by the Australian Government through Creative Australia, its principal arts investment and advisory body’s VACS funding. With support from Create NSW, Creative Partnerships Australia, Neilson Foundation, Bankstown Arts Centre and Tactical Lab UNSW, with support from Creative Partnerships Australia through Plus1.
+              The first iteration of this work was commissioned and produced by Utp as Body Place at Bankstown Art Centre. This project was assisted by the Australian Government through Creative Australia, its principal arts investment and advisory body's VACS funding. With support from Create NSW, Creative Partnerships Australia, Neilson Foundation, Bankstown Arts Centre and Tactical Lab UNSW, with support from Creative Partnerships Australia through Plus1.
             </sub>
             </p>
+            </div>
           </div>
           <hr />
-        <div class="project" style="background-color: rgb(215, 241, 239);">
-            <h2>LOOK ▷ SEE</h2>
-            <h3>2024</h3>
-            <p>
-              <p>
-                Commission with Lendlease Arts - Melbourne Quarter and presenting partner Melbourne International Film Festival
-              </p>
+        <div class="project" style="background-color: rgb(241, 250, 250);">
+            <div class="project-toggle" onclick="toggleProject(this.parentElement)">
+              <div class="toggle-title">LOOK ▷ SEE</div>
+              <div class="toggle-action">
+                <span>▼</span>
+                <span class="toggle-text">read more</span>
+              </div>
+            </div>
+            <div class="project-header" onclick="toggleProject(this.parentElement)">
+              <h2>LOOK ▷ SEE</h2>
+              <h3>2024</h3>
+            </div>
+            <div class="project-hero" onclick="toggleProject(this.nextElementSibling)">
               <div class="image">
                 <img
                   src="/src/img/l2s/l2s_01.webp"
                   width="100%"
-                  alt="LookToSee 01"
+                  alt="LOOK ▷ SEE hero"
                   loading="lazy"
                   style="aspect-ratio: 2443 / 1576; "
                 />
               </div>
+            </div>
+            <div class="project-content">
+              <p>
+                Commission with Lendlease Arts - Melbourne Quarter and presenting partner Melbourne International Film Festival
+              </p>
               <p>
               LOOK ▷ SEE (Look to See)
               </p>
@@ -294,7 +317,6 @@
               All the tiny details make us feel connected and in tune, while the mega scale moments make tummy leaps … this is so that we may feel all the layers of our planetary existences.
               </p>
             </p>
-            <p><a href="https://pagebuddy.app">pagebuddy.app</a></p>
             <br />
             <div class="image">
               <img
@@ -339,6 +361,32 @@
               <li>Photogrammetry 3D object scans from real world objects: April Phillips</li>
             </ul>
             </p>
+            </div>
+          </div>
+          <hr />
+        <div class="project" style="background-color: rgb(255, 240, 245); min-height: 2000px;">
+            <div class="project-toggle" onclick="toggleProject(this.parentElement)">
+              <div class="toggle-title">Test Project</div>
+              <div class="toggle-action">
+                <span>▼</span>
+                <span class="toggle-text">read more</span>
+              </div>
+            </div>
+            <div class="project-header" onclick="toggleProject(this.parentElement)">
+              <h2>Test Project</h2>
+              <h3>2025</h3>
+            </div>
+            <div class="project-content">
+              <p>This is a very long test project to demonstrate sticky positioning.</p>
+              <p>Scroll down to see the toggle stick to the top when scrolling down.</p>
+              <p>Scroll up to see the toggle stick to the bottom when scrolling up.</p>
+              <br><br><br><br><br><br><br><br>
+              <p>More content...</p>
+              <br><br><br><br><br><br><br><br>
+              <p>Even more content...</p>
+              <br><br><br><br><br><br><br><br>
+              <p>Final content...</p>
+            </div>
           </div>
           <hr />
       </section>
@@ -389,6 +437,78 @@
           nav.classList.add("active");
         }
       }
+
+      function toggleProject(element) {
+        // Find the parent project div
+        let projectDiv = element;
+        if (!element.classList.contains('project')) {
+          projectDiv = element.closest('.project');
+        }
+
+        if (projectDiv) {
+          projectDiv.classList.toggle('expanded');
+
+          // Update toggle text
+          const toggleText = projectDiv.querySelector('.toggle-text');
+          const projectTitle = projectDiv.querySelector('.project-header h2').textContent;
+
+          if (projectDiv.classList.contains('expanded')) {
+            toggleText.textContent = 'read less';
+          } else {
+            toggleText.textContent = 'read more';
+          }
+        }
+      }
+
+      // Track scroll direction and position for project toggles
+      let lastScrollY = window.scrollY;
+      let scrollDirection = 'down';
+
+      function updateProjectToggles() {
+        const currentScrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+
+        // Determine scroll direction
+        if (currentScrollY > lastScrollY) {
+          scrollDirection = 'down';
+        } else if (currentScrollY < lastScrollY) {
+          scrollDirection = 'up';
+        }
+        lastScrollY = currentScrollY;
+
+        const projects = document.querySelectorAll('.project');
+
+        projects.forEach(project => {
+          const toggle = project.querySelector('.project-toggle');
+          if (!toggle) return;
+
+          const rect = project.getBoundingClientRect();
+
+          // If project is completely above viewport, stick to bottom
+          if (rect.bottom < 0) {
+            toggle.classList.add('at-bottom');
+          }
+          // If project is completely below viewport, stick to top
+          else if (rect.top > viewportHeight) {
+            toggle.classList.remove('at-bottom');
+          }
+          // Project is visible in viewport - use scroll direction
+          // When scrolling DOWN, pick up from TOP (remove at-bottom)
+          // When scrolling UP, pick up from BOTTOM (add at-bottom)
+          else {
+            if (scrollDirection === 'down') {
+              toggle.classList.remove('at-bottom');
+            } else {
+              toggle.classList.add('at-bottom');
+            }
+          }
+        });
+      }
+
+      // Update on scroll and initial load
+      window.addEventListener('scroll', updateProjectToggles, { passive: true });
+      window.addEventListener('load', updateProjectToggles);
+      window.addEventListener('resize', updateProjectToggles);
     </script>
     <script
       fetchpriority="high"

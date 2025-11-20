@@ -22,12 +22,15 @@
 
 html,
 body {
-  overflow-x: hidden;
   background-color: #f6d4b1;
   font-family: "Roboto Mono", monospace;
   font-size: 18px;
   font-weight: 400;
   -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
 }
 
 #project{
@@ -358,4 +361,96 @@ a:active {
   filter: blur(30px);
   color: #f6d4b1;
   border: #f6d4b1 solid 1px;
+}
+
+/* Project sections */
+.project {
+  position: relative;
+  margin: 32px auto;
+  padding: 24px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0px rgba(82, 82, 82, 0.15);
+}
+
+.project-header {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s;
+}
+
+.project-header:hover {
+  transform: scale(1.01);
+}
+
+.project-header:active {
+  transform: scale(0.99);
+}
+
+.project-hero {
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.project-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
+}
+
+.project.expanded .project-content {
+  max-height: 10000px;
+  opacity: 1;
+  transition: max-height 0.7s ease-in, opacity 0.5s ease-in;
+}
+
+.project-toggle {
+  position:-webkit-sticky;
+  position: sticky;
+  left: 24px;
+  top: 100px;
+  width: fit-content;
+  max-width: 300px;
+  height: auto;
+  padding: 12px 24px;
+  background-color: var(--color);
+  cursor: pointer;
+  z-index: 10;
+  color: #f6d4b1;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.project-toggle.at-bottom {
+  top: 100px;
+}
+
+.project-toggle .toggle-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.project-toggle .toggle-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.project-toggle .toggle-action span:first-child {
+  transition: transform 0.3s;
+  display: inline-block;
+}
+
+.project.expanded .project-toggle .toggle-action span:first-child {
+  transform: rotate(180deg);
+}
+
+.project-toggle:hover {
+  opacity: 0.9;
+}
+
+.project-toggle:active {
+  opacity: 0.8;
 }
