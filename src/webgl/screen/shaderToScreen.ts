@@ -35,6 +35,7 @@ class ShaderToScreen {
       this.shader
     );
     this.sceneRTT.add(plane);
+
     this.sceneRTT.add(new THREE.AxesHelper(0));
 
   }

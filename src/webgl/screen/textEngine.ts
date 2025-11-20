@@ -114,6 +114,35 @@ export default function ScreenTextEngine(
   caret.position.z = -0.1;
   rootGroup.add(caret);
 
+  // // Video plane behind text but in front of background
+  // const videoPlane = new THREE.Mesh(
+  //   new THREE.PlaneBufferGeometry(1.4, 1.4 / (16/9)),
+  //   new THREE.MeshBasicMaterial({ color: 0x000000 })
+  // );
+  // videoPlane.position.set(0.7, -0.4, -0.5);
+  // rootGroup.add(videoPlane);
+
+  // // Load video texture
+  // const videoElement = document.createElement('video');
+  // videoElement.src = '/videos/testVid.mp4';
+  // videoElement.crossOrigin = 'anonymous';
+  // videoElement.loop = true;
+  // videoElement.muted = true;
+  // videoElement.playsInline = true;
+
+  // videoElement.addEventListener('loadeddata', () => {
+  //   const videoTexture = new THREE.VideoTexture(videoElement);
+  //   videoTexture.minFilter = THREE.LinearFilter;
+  //   videoTexture.magFilter = THREE.LinearFilter;
+  //   videoPlane.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+
+  //   videoElement.play().catch(() => {
+  //     document.addEventListener('click', () => {
+  //       videoElement.play();
+  //     }, { once: true });
+  //   });
+  // });
+
   let charUnderCaret: THREE.Mesh | undefined = undefined;
   function updateCharUnderCaret(isBlack: boolean) {
     if (charUnderCaret)

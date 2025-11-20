@@ -9,6 +9,7 @@
 uniform sampler2D uDiffuse;
 uniform float uTime;
 uniform float uProgress;
+uniform float uBlend;
 varying vec2 vUv;
 
 float rand(vec2 co){
@@ -38,5 +39,6 @@ void main()
             float r = rand(vUv*uTime);
 
             vec4 p = progress();
-            gl_FragColor = color  +  (vec4(r,r,r,0) * (p.a + NOISE_STRENGTH)) + squareWave(vUv.y);            
+            vec4 effect = color  +  (vec4(r,r,r,0) * (p.a + NOISE_STRENGTH)) + squareWave(vUv.y);      
+            gl_FragColor = mix(color, effect, uBlend);
         }

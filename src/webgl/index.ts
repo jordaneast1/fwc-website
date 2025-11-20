@@ -19,6 +19,11 @@ function valMap(x: number, from: [number, number], to: [number, number]) {
   return y;
 }
 
+function clamp(val: number, min: number, max: number){
+   return Math.min(Math.max(val, min), max);
+}
+
+
 let viewHeight = document.documentElement.clientHeight;
 let scroll = window.scrollY / document.documentElement.clientHeight;
 window.addEventListener(
@@ -238,7 +243,7 @@ export default function WebGL() {
       camera.position.z = valMap(
         scroll,
         [0, 1],
-        [-2.5 - sizes.portraitOffset, -10 - sizes.portraitOffset]
+        [-2 - sizes.portraitOffset, -10 - sizes.portraitOffset]
       );
 
       computerGroup.position.x = controlProps.computerHorizontal * zoomFac;
@@ -272,8 +277,13 @@ export default function WebGL() {
           [0.5, 0]
         );
       }*/
-
-      screen.tick(deltaTime, elapsedTime);
+      //console.log(scroll)
+      const blend = clamp(valMap(scroll, [0, 1], [0.0, 5.0]),0,1);
+      const invBlend = 1-blend;
+      const crtScale = 1.0+invBlend*0.4;
+      assists.screenMesh.scale.set(1.0+invBlend,1.0+invBlend,blend+0.01);
+      assists.crtMesh.scale.set(crtScale,crtScale,crtScale);
+      screen.tick(deltaTime, elapsedTime, blend);
 
       renderer.setRenderTarget(null);
       renderer.render(scene, camera);

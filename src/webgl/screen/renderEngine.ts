@@ -23,7 +23,7 @@ export default function ScreenRenderEngine(
   cameraRTT.position.set(0, 0, 1);
 
   const rtTexture = new THREE.WebGLRenderTarget(resolution * 1.33, resolution, {
-    format: THREE.RGBFormat,
+    format: THREE.RGBAFormat,
   });
 
   const composer = new EffectComposer(renderer, rtTexture);
@@ -37,6 +37,7 @@ export default function ScreenRenderEngine(
       uDiffuse: { value: null },
       uTime: { value: 1 },
       uProgress: { value: 1.2 },
+      uBlend: { value: 1.0 },
     },
     vertexShader: vertexShader,
     fragmentShader: noiseFragmentShader,
@@ -54,14 +55,17 @@ export default function ScreenRenderEngine(
   noiseMat.uniforms.uDiffuse.value = lag.outputTexture.texture;
 
   let uProgress = 1.2;
-  const tick = (deltaTime: number, elapsedTime: number) => {
+  const tick = (deltaTime: number, elapsedTime: number, scroll: number) => {
     noiseMat.uniforms.uTime.value = elapsedTime;
     noiseMat.uniforms.uProgress.value = uProgress;
+    noiseMat.uniforms.uBlend.value = scroll;
 
     shaderToScreen.shader.uniforms.uTime.value = elapsedTime;
     shaderToScreen.shader.uniforms.uProgress.value = uProgress;
-
+    shaderToScreen.shader.uniforms.uBlend.value = scroll;
     shaderToScreen.render(renderer);
+
+    bloomPass.strength = scroll;
 
     uProgress -= deltaTime * 0.2;
     if (uProgress < 0) uProgress = 1.2;
@@ -81,6 +85,7 @@ export default function ScreenRenderEngine(
         uDiffuse: { value: lag.outputTexture.texture },
         uTime: { value: 1 },
         uProgress: { value: 1.2 },
+        uBlend: { value: 1.0 },
       },
       vertexShader: vertexShader,
       fragmentShader: noiseFragmentShader,
