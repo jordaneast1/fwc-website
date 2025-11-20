@@ -33,12 +33,6 @@ body {
   overflow-x: clip;
 }
 
-#project{
-  width: 100%;
-  padding-top: 150px;
-  padding-bottom: 150px;
-}
-
 .webgl {
   position: fixed;
   top: 0;
@@ -48,6 +42,15 @@ body {
   width: 100%;
   outline: none;
   z-index: 1;
+}
+
+.about {
+  text-align: center;
+}
+
+.about p {
+  font-size: 1.2em;
+  text-align: center;
 }
 
 #hero-backup {
@@ -191,7 +194,7 @@ hr {
   border-bottom: dashed 2px var(--color);
 }
 
-.skills,
+.credits,
 p {
   padding: 16px;
   text-align: left;
@@ -200,7 +203,7 @@ p {
   margin: auto;
   box-sizing: border-box;
 }
-.skills {
+.credits {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -213,7 +216,7 @@ p {
   transition: all 0.3s;
 }
 
-.skills li {
+.credits li {
   display: inline-block;
   padding: 4px 8px;
   border: dashed 1px var(--color);
@@ -252,7 +255,6 @@ section {
 
 section::after {
   content: "";
-  border-bottom: dashed 2px var(--color);
   position: absolute;
   bottom: 0;
   transform: translateX(-50%);
@@ -366,8 +368,8 @@ a:active {
 /* Project sections */
 .project {
   position: relative;
-  margin: 32px auto;
-  padding: 24px;
+  padding-top: 35px;
+  padding-bottom: 50px;
   width: 100%;
   border-radius: 8px;
   box-shadow: 2px 2px 0px rgba(82, 82, 82, 0.15);
