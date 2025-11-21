@@ -123,9 +123,10 @@ export default function Screen(
 
     //smile fade in
     console.log(scroll)
-    smilePlane.material.opacity = clamp(valMap(scroll, [0.5, 1], [0, 1]),0,1)
-    
-    screenTextEngine.pla
+    const smileScrollOffset = clamp(valMap(scroll, [0.5, 1], [0, 1]),0,1);
+    smilePlane.material.opacity = smileScrollOffset;
+    smilePlane.position.set(0.7, -1.5+smileScrollOffset, 0)
+    screenTextEngine.rootGroup.position.set(0,smileScrollOffset,0)
 
     screenRenderEngine.tick(deltaTime, elapsedTime, scroll);
     screenTextEngine.tick(deltaTime, elapsedTime);

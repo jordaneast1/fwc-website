@@ -795,5 +795,6 @@ export default function ScreenTextEngine(
     scroll,
     scrollToEnd,
     freezeInput,
+    rootGroup,
   };
 }
