@@ -1,9 +1,10 @@
-##   Hi there, 
+##  Hello, 
+##  We are 
+
 
 #  *Friends With Computers*
 
-##   • Software Engineer
-##   • Digital Designer
+##  We create through play with technology
 
 
 
@@ -11,4 +12,4 @@
 
 
 ### Welcome to ED-Linux 1.0 LTS
-### →→ Scroll or type "help" to get started
+### →→ Scroll or type

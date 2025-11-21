@@ -35,7 +35,7 @@ export default function Bash(print: (s: string, md?: boolean) => void) {
   }
 
   function cmdNotFound(cmdName: string) {
-    print(`\n${cmdName}:command not found`);
+    print(`\n${cmdName}:I'm sorry, I'm not sure what you mean...`);
   }
 
   function prompt() {
