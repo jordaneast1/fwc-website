@@ -11,5 +11,4 @@
 
 
 
-### Welcome to ED-Linux 1.0 LTS
 ### →→ Scroll or type

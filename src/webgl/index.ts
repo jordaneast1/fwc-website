@@ -287,7 +287,7 @@ export default function WebGL() {
       const screenScale = 1.0+invBlend;
       assists.screenMesh.scale.set(screenScale,1.0,blend+0.01);
       assists.crtMesh.scale.set(crtScale,crtScale,crtScale);
-      screen.tick(deltaTime, elapsedTime, blend,screenScale);
+      screen.tick(deltaTime, elapsedTime, scroll, blend, screenScale);
 
       renderer.setRenderTarget(null);
       renderer.render(scene, camera);

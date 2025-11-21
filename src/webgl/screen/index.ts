@@ -4,10 +4,30 @@ import ScreenTextEngine from "./textEngine";
 import { Assists } from "../loader";
 import Terminal from "../../terminal";
 
+function valMap(x: number, from: [number, number], to: [number, number]) {
+  const y = ((x - from[0]) / (from[1] - from[0])) * (to[1] - to[0]) + to[0];
+
+  if (to[0] < to[1]) {
+    if (y < to[0]) return to[0];
+    if (y > to[1]) return to[1];
+  } else {
+    if (y > to[0]) return to[0];
+    if (y < to[1]) return to[1];
+  }
+
+  return y;
+}
+
+function clamp(val: number, min: number, max: number){
+   return Math.min(Math.max(val, min), max);
+}
+
+
 export default function Screen(
   assists: Assists,
   renderer: THREE.WebGLRenderer
 ) {
+
   const sceneRTT = new THREE.Scene();
 
   // // Geometry
@@ -47,6 +67,40 @@ export default function Screen(
         }, { once: true });
       });
     });
+
+    
+    // Video plane behind text but in front of background
+    const smilePlane = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(1, 1 ),
+      new THREE.MeshBasicMaterial({ color: 0x000000 })
+    );
+    sceneRTT.add(smilePlane);
+    smilePlane.scale.set(1.1,1.1,1.1)
+    smilePlane.position.set(0.7, -0.5, 0);
+    //1.496+0.4)/2
+  
+  // Load video texture
+    const smileElement = document.createElement('video');
+    smileElement.src = '/videos/smiley_01_mask.mp4';
+    smileElement.crossOrigin = 'anonymous';
+    smileElement.loop = true;
+    smileElement.muted = true;
+    smileElement.playsInline = true;
+  
+    smileElement.addEventListener('loadeddata', () => {
+      const smileTexture = new THREE.VideoTexture(smileElement);
+      smileTexture.minFilter = THREE.LinearFilter;
+      smileTexture.magFilter = THREE.LinearFilter;
+      smileTexture.format = THREE.RGBAFormat;
+
+      smilePlane.material = new THREE.MeshBasicMaterial({ color: 0xf99021 , map: smileTexture, alphaMap:smileTexture,transparent:true, opacity:0.0 });
+  
+      smileElement.play().catch(() => {
+        document.addEventListener('click', () => {
+          videoElement.play();
+        }, { once: true });
+      });
+    });
   
   const screenTextEngine = ScreenTextEngine(
     assists,
@@ -57,8 +111,8 @@ export default function Screen(
 
   Terminal(screenTextEngine);
 
-  const tick = (deltaTime: number, elapsedTime: number, scroll: number, screenScale: number) => {
-    const invBlend = 1-scroll;
+  const tick = (deltaTime: number, elapsedTime: number, scroll: number, blend:number, screenScale: number) => {
+    const invBlend = 1-blend;
     //videoPlane.scale.set(1,1,1)
     screenRenderEngine.cameraRTT.left = -0.1 * screenScale - .5 * invBlend;
     screenRenderEngine.cameraRTT.right = 1.496 * screenScale - .5 * invBlend;
@@ -66,6 +120,12 @@ export default function Screen(
     // screenRenderEngine.cameraRTT.bottom = -1.1 * screenScale;
     screenRenderEngine.cameraRTT.zoom = 1;
     screenRenderEngine.cameraRTT.updateProjectionMatrix();
+
+    //smile fade in
+    console.log(scroll)
+    smilePlane.material.opacity = clamp(valMap(scroll, [0.5, 1], [0, 1]),0,1)
+    
+    screenTextEngine.pla
 
     screenRenderEngine.tick(deltaTime, elapsedTime, scroll);
     screenTextEngine.tick(deltaTime, elapsedTime);
