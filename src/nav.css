@@ -26,7 +26,8 @@ nav .btn {
   opacity: 0;
   pointer-events: none;
   padding: 8px 16px;
-  fill: #f6d4b1;
+  fill: #ffffff;
+  box-shadow: none;
 }
 
 .menu-btn > .btn:first-child {
@@ -44,26 +45,26 @@ html[data-scroll="true"] nav .btn {
 }
 
 .active .btn {
-  box-shadow: 6px 6px 0px rgba(246, 212, 177, 0.7);
-  background-color: #f6d4b1;
-  color: #525252;
-  fill: #525252;
-  border-color: #525252;
+  box-shadow: none;
+  background-color: #525252;
+  color: #ffffff;
+  fill: #ffffff;
+  border-color: #ffffff;
   opacity: 1 !important;
   pointer-events: all !important;
 }
 
 .active .btn:hover {
-  box-shadow: 8px 8px 6px rgba(246, 212, 177, 0.5);
+  box-shadow: none;
 }
 
 .active .btn:active {
-  box-shadow: 4px 4px 0px rgba(246, 212, 177, 0.7);
+  box-shadow: none;
 }
 
 .menu-body {
   background-color: #525252;
-  color: #f6d4b1;
+  color: #ffffff;
   font-size: 2em;
   font-family: "Roboto Mono", monospace;
   font-weight: 600;
@@ -109,10 +110,10 @@ html[data-scroll="true"] nav .btn {
   font-weight: 400;
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.75);
   background-color: #525252;
-  color: #f6d4b1;
+  color: #dadada;
   transition: all 0.3s;
   padding: 4px 24px;
-  border: #f6d4b1 solid 1px;
+  border: #dadada solid 1px;
   pointer-events: none;
   display: none;
   opacity: 1;

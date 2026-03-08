@@ -22,7 +22,7 @@
 
 html,
 body {
-  background-color: #f6d4b1;
+  background-color: #151515;
   font-family: "Roboto Mono", monospace;
   font-size: 18px;
   font-weight: 400;
@@ -93,7 +93,7 @@ body {
 }
 
 #loading {
-  color: #f6d4b1;
+  color: #dadada;
   background-color: var(--color);
   position: fixed;
   top: 0;
@@ -123,7 +123,7 @@ body {
   position: relative;
   width: 100%;
   height: 64px;
-  border: dashed 2px #f6d4b1;
+  border: dashed 2px #dadada;
   box-shadow: 2px 2px 0px var(--color), 6px 6px 0px rgba(246, 212, 177, 0.7);
 }
 
@@ -133,7 +133,7 @@ body {
   bottom: 2px;
   left: 2px;
   right: 2px;
-  background-color: #f6d4b1;
+  background-color: #ffffff;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.2s;
@@ -141,7 +141,7 @@ body {
 
 h1 {
   display: inline-block;
-  color: #f6d4b1;
+  color: #fcfcfc;
   background-color: var(--color);
   font-family: "Roboto Mono", monospace;
   font-size: 2em;
@@ -158,7 +158,7 @@ h2 {
   display: inline-block;
   font-size: 1.2em;
   text-align: center;
-  color: #f6d4b1;
+  color: #dadada;
   background-color: var(--color);
   font-family: "Roboto Mono", monospace;
   font-weight: 600;
@@ -220,7 +220,7 @@ p {
   display: inline-block;
   padding: 4px 8px;
   border: dashed 1px var(--color);
-  box-shadow: 1px 1px 0px #f6d4b1, 4px 4px 0px rgba(82, 82, 82, 0.25);
+  box-shadow: 1px 1px 0px #dadada, 4px 4px 0px rgba(82, 82, 82, 0.25);
 }
 
 .image {
@@ -236,7 +236,6 @@ p {
   box-sizing: border-box;
   width: clamp(0px, 95vw, 1200px);
   object-fit: cover;
-  box-shadow: 1px 1px 0px #f6d4b1, 6px 6px 0px rgba(82, 82, 82, 0.25);
 }
 
 main {
@@ -289,12 +288,12 @@ a {
 }
 a:hover {
   transform: scale(1.1);
-  box-shadow: 1px 1px 0px #f6d4b1, 4px 4px 0px rgba(82, 82, 82, 0.25);
+  box-shadow: 1px 1px 0px #dadada, 4px 4px 0px rgba(82, 82, 82, 0.25);
 }
 
 a:active {
   transform: scale(1);
-  box-shadow: 1px 1px 0px #f6d4b1, 3px 3px 0px rgba(82, 82, 82, 0.4);
+  box-shadow: 1px 1px 0px #dadada, 3px 3px 0px rgba(82, 82, 82, 0.4);
 }
 
 .btn {
@@ -306,11 +305,11 @@ a:active {
   gap: 0.25rem;
   box-shadow: 6px 6px 0px rgba(82, 82, 82, 0.25);
   background-color: var(--color);
-  color: #f6d4b1;
+  color: #dadada;
   cursor: pointer;
   transition: all 0.3s;
   padding: 4px 24px;
-  border: #f6d4b1 solid 1px;
+  border: #dadada solid 1px;
   text-decoration: none;
 }
 
@@ -336,7 +335,7 @@ a:active {
   align-items: center;
   justify-content: center;
 
-  box-shadow: 1px 1px 0px #f6d4b1, 6px 6px 0px rgba(82, 82, 82, 0.25);
+  box-shadow: 1px 1px 0px #dadada, 6px 6px 0px rgba(82, 82, 82, 0.25);
 }
 
 .portrait-tag {
@@ -361,8 +360,8 @@ a:active {
   background-image: url(img/bg.png);
   background-size: contain;
   filter: blur(30px);
-  color: #f6d4b1;
-  border: #f6d4b1 solid 1px;
+  color: #dadada;
+  border: #dadada solid 1px;
 }
 
 /* Project sections */
@@ -419,7 +418,7 @@ a:active {
   background-color: var(--color);
   cursor: pointer;
   z-index: 10;
-  color: #f6d4b1;
+  color: #dadada;
   font-weight: 500;
   font-size: 14px;
 }
