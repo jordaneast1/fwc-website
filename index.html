@@ -95,22 +95,21 @@ Friends With Computers is an artist collective composed of April Phillips, Pat Y
       <section>
         <h1 id="projects">Projects</h1>
           <div class="project">
-            <div class="project-toggle" onclick="toggleProject(this.parentElement)">
-              <div class="toggle-title">kajoo yannaga</div>
-              <div class="toggle-action">
-                <span>▼</span>
-                <span class="toggle-text">read more</span>
+              <div class="project-toggle" onclick="toggleProject(this.parentElement)">
+                <div class="toggle-title">kajoo yannaga</div>
+                <div class="toggle-action">
+                  <span>▼</span>
+                  <span class="toggle-text">read more</span>
+                </div>
               </div>
-            </div>
-            <div class="project-header" onclick="toggleProject(this.parentElement)">
-              <h2>kajoo yannaga</h2>
-              <h3>2024</h3>
-            </div>
+              <div class="project-header" onclick="toggleProject(this.parentElement)">
+                <h2>kajoo yannaga</h2>
+                <h3>2024</h3>
+              </div>
             <div class="project-hero" onclick="toggleProject(this.nextElementSibling)">
               <div class="image">
                 <img
                   src="/src/img/ky/kajoo+yannaga_image+edit_+AprilPhillips_2024_credit_JacquieManning-24_V2.webp"
-                  width="100%"
                   alt="kajoo yannaga hero"
                   loading="lazy"
                   style="aspect-ratio: 2443 / 1576; "
@@ -201,7 +200,7 @@ Friends With Computers is an artist collective composed of April Phillips, Pat Y
                 loading="lazy"
                 style="aspect-ratio: 2443 / 1576;"
               />
-              <img
+              <imgckground-color: #717171; 
                 src="/src/img/ky/UTP_BodyPlace+by+AprilPhillips_2024_credit_JacquieManning-45.webp"
                 width="100%"
                 alt="kajoo yannaga"
@@ -254,7 +253,6 @@ Friends With Computers is an artist collective composed of April Phillips, Pat Y
               <div class="image">
                 <img
                   src="/src/img/l2s/l2s_01.webp"
-                  width="100%"
                   alt="LOOK ▷ SEE hero"
                   loading="lazy"
                   style="aspect-ratio: 2443 / 1576; "
@@ -397,6 +395,26 @@ Friends With Computers is an artist collective composed of April Phillips, Pat Y
         }
       }
 
+      // Returns the translateY offset needed to vertically centre the image
+      // inside the collapsed hero container (negative value, image overflows top+bottom)
+      function heroCollapseOffset(hero) {
+        const img = hero.querySelector('img');
+        if (!img) return 0;
+        return (hero.offsetHeight - img.offsetHeight) / 2;
+      }
+
+      // Apply resting centering offset to all currently-collapsed heroes
+      function positionCollapsedHeroes() {
+        document.querySelectorAll('.project:not(.expanded) .project-hero').forEach(hero => {
+          const image = hero.querySelector('.image');
+          if (image) image.style.transform = `translateY(${heroCollapseOffset(hero)}px)`;
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', positionCollapsedHeroes);
+      window.addEventListener('load', positionCollapsedHeroes);
+      window.addEventListener('resize', positionCollapsedHeroes);
+
       function toggleProject(element) {
         // Find the parent project div
         let projectDiv = element;
@@ -404,34 +422,77 @@ Friends With Computers is an artist collective composed of April Phillips, Pat Y
           projectDiv = element.closest('.project');
         }
 
-        if (projectDiv) {
-          const wasExpanded = projectDiv.classList.contains('expanded');
-          projectDiv.classList.toggle('expanded');
+        if (!projectDiv) return;
 
-          // Update toggle text
-          const toggleText = projectDiv.querySelector('.toggle-text');
-          const projectTitle = projectDiv.querySelector('.project-header h2').textContent;
+        const hero = projectDiv.querySelector('.project-hero');
+        const heroImage = hero ? hero.querySelector('.image') : null;
 
-          if (projectDiv.classList.contains('expanded')) {
-            toggleText.textContent = 'read less';
-          } else {
-            toggleText.textContent = 'read more';
+        // Record state before toggling
+        const fromHeight = hero ? hero.offsetHeight : null;
+        const fromTranslate = heroImage
+          ? new DOMMatrix(getComputedStyle(heroImage).transform).m42  // current translateY in px
+          : 0;
 
-            // If we're collapsing, scroll the project header to the top
-            if (wasExpanded) {
-              const projectHeader = projectDiv.querySelector('.project-header');
-              if (projectHeader) {
-                // Wait for the collapse animation to start, then scroll
-                setTimeout(() => {
-                  projectHeader.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                  });
-                }, 100);
-              }
+        const wasExpanded = projectDiv.classList.contains('expanded');
+        projectDiv.classList.toggle('expanded');
+
+        // Update toggle text
+        const toggleText = projectDiv.querySelector('.toggle-text');
+
+        if (projectDiv.classList.contains('expanded')) {
+          toggleText.textContent = 'read less';
+        } else {
+          toggleText.textContent = 'read more';
+
+          if (wasExpanded) {
+            const projectHeader = projectDiv.querySelector('.project-header');
+            if (projectHeader) {
+              setTimeout(() => {
+                projectHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 100);
             }
           }
         }
+
+        if (!hero || fromHeight === null) return;
+
+        const isExpanding = projectDiv.classList.contains('expanded');
+        const toHeight = hero.offsetHeight;
+
+        // Target translateY: 0 when expanded (top), centered offset when collapsed
+        const toTranslate = isExpanding ? 0 : heroCollapseOffset(hero);
+
+        // Disable transitions and set the starting state
+        hero.style.transition = 'none';
+        hero.style.height = `${fromHeight}px`;
+        if (heroImage) {
+          heroImage.style.transition = 'none';
+          heroImage.style.transform = `translateY(${fromTranslate}px)`;
+        }
+
+        hero.getBoundingClientRect(); // force reflow
+
+        // Animate height and vertical position together
+        hero.style.transition = 'height .6s ease';
+        hero.style.height = `${toHeight}px`;
+        if (heroImage) {
+          heroImage.style.transition = 'transform .6s ease';
+          heroImage.style.transform = `translateY(${toTranslate}px)`;
+        }
+
+        hero.addEventListener('transitionend', () => {
+          hero.style.height = '';
+          hero.style.transition = '';
+          if (heroImage) {
+            heroImage.style.transition = '';
+            // Restore resting state: inline transform for collapsed, none for expanded
+            if (!projectDiv.classList.contains('expanded')) {
+              heroImage.style.transform = `translateY(${heroCollapseOffset(hero)}px)`;
+            } else {
+              heroImage.style.transform = '';
+            }
+          }
+        }, { once: true });
       }
 
       // Track scroll direction and position for project toggles

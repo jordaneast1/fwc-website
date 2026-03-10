@@ -4,8 +4,18 @@
 
 :root {
   --color: #525252;
+  --color2:#b6b6b6;
+
 }
 
+@font-face {
+  font-family: "Satoshi-Variable";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2"),
+       url("/fonts/Satoshi-Variable.woff") format("woff"),
+       url("/fonts/Satoshi-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
 @font-face {
   font-family: public-pixel;
   src: url("/fonts/public-pixel.woff");
@@ -18,6 +28,7 @@
 * {
   margin: 0;
   padding: 0;
+  
 }
 
 html,
@@ -45,18 +56,26 @@ body {
 }
 
 .about {
-  text-align: center;
+  text-align: left;
+  width: clamp(0px, 95vw, 1450px);
+  margin: auto;
+}
+
+p {
+    color:var(--color2);
+
 }
 
 .about p {
   font-size: 1.2em;
-  text-align: center;
+  text-align: left;
+  width: auto;
 }
 
 #hero-backup {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
   gap: 16px;
   position: absolute;
   top: 0;
@@ -140,18 +159,20 @@ body {
 }
 
 h1 {
-  display: inline-block;
+  display: block;
   color: #fcfcfc;
-  background-color: var(--color);
-  font-family: "Roboto Mono", monospace;
+  font-family: "Satoshi-Variable";
   font-size: 2em;
-  font-weight: 700;
+  font-weight: 600;
   padding: 16px;
   padding-top: 4px;
   padding-bottom: 8px;
   margin: auto;
   margin-top: 0;
   margin-bottom: 0.3em;
+  width: clamp(0px, 95vw, 1450px);
+  box-sizing: border-box;
+  text-align: left;
 }
 
 h2 {
@@ -159,8 +180,8 @@ h2 {
   font-size: 1.2em;
   text-align: center;
   color: #dadada;
-  background-color: var(--color);
-  font-family: "Roboto Mono", monospace;
+  font-family: "Satoshi-Variable";
+  font-size: 2em;
   font-weight: 600;
   padding: 16px;
   padding-top: 4px;
@@ -172,8 +193,9 @@ h2 {
 
 h3 {
   font-size: 1.2em;
-  text-align: center;
-  color: var(--color);
+  text-align: left;
+  color: var(--color2);
+  
   font-family: "Roboto Mono", monospace;
   font-weight: 500;
   padding-top: 4px;
@@ -199,21 +221,30 @@ p {
   padding: 16px;
   text-align: left;
   line-height: 1.5;
-  width: clamp(0px, 95vw, 850px);
+  width: clamp(0px, 95vw, 1450px);
   margin: auto;
   box-sizing: border-box;
 }
 .credits {
   display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 16px;
 
-  text-align: center;
+  text-align: left;
+  width: clamp(0px, 95vw, 1450px);
+  margin: auto;
+  padding: 16px;
   list-style-type: none;
   transition: all 0.3s;
+}
+
+.credits, 
+h3{
+  text-align: left;
+    width: clamp(0px, 95vw, 1450px);
+  margin: auto;
+  padding: 16px;
 }
 
 .credits li {
@@ -241,7 +272,7 @@ p {
 main {
   color: var(--color);
   margin-top: 200vh;
-  text-align: center;
+  text-align: left;
   position: relative;
   z-index: 2;
 }
@@ -367,7 +398,7 @@ a:active {
 /* Project sections */
 .project {
   position: relative;
-  padding-top: 35px;
+  padding-top: 5px;
   padding-bottom: 50px;
   width: 100%;
   border-radius: 8px;
@@ -378,6 +409,22 @@ a:active {
   cursor: pointer;
   user-select: none;
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 16px;
+  width: clamp(0px, 95vw, 1450px);
+  margin: auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.project-header h2,
+.project-header h3 {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 .project-header:hover {
@@ -390,7 +437,31 @@ a:active {
 
 .project-hero {
   cursor: pointer;
+  overflow: hidden;
+  aspect-ratio: 2443 / 630;
   margin-bottom: 16px;
+}
+
+/* Override the .image flex/width/object-fit rules inside the hero */
+.project-hero .image {
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+
+.project-hero .image * {
+  /* width: 100%; */
+  object-fit: unset;
+}
+
+.project-hero img {
+  display: block;
+  width: 100vw;
+  height: auto; /* natural size — container clips, no scaling */
+}
+
+.project.expanded .project-hero {
+  aspect-ratio: unset;
 }
 
 .project-content {
@@ -411,6 +482,7 @@ a:active {
   position: sticky;
   left: 24px;
   top: 100px;
+  transform: translateY(65px);
   width: fit-content;
   max-width: 300px;
   height: auto;
