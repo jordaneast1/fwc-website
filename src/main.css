@@ -527,3 +527,28 @@ a:active {
 .project-toggle:active {
   opacity: 0.8;
 }
+
+.center-img {
+  display: block;      /* Change from inline to block */
+  margin-left: auto;   /* Set left margin to auto */
+  margin-right: auto;  /* Set right margin to auto */
+  padding: 30px;
+}
+
+.contact {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  width: clamp(0px, 95vw, 1450px);
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.contact h1,
+.contact p {
+  width: auto;
+  margin: 0;
+  padding: 16px;
+}
