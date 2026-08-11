@@ -1,15 +1,11 @@
-# Retro Computer Personal Website
+# FWC Website
+Temporary FWC Website.
 
+Website design forked from <a href="https://github.com/edhinrichsen/retro-computer-website">Retro Computer Website</a> by <a href="https://edh.dev/">Ed Hinrichsen</a> and customised by us :)</div>
+     
+Go check eds work out
 https://edh.dev/ (formerly edwardh.io)
 
-This was a project I built for fun over one of my uni breaks, built in TypeScript and THREE.js, it contains a number of nifty features such as:
-- 3D retro computer that you can interact with
-- very simple UNIX shell implementation
-- files system implementation
-- markdown interpreter and renderer
-- text layout engine
-
-![Image of website](https://edh.dev/icon/og-img1.png)
 
 ## Build Instructions 
 ``` bash
