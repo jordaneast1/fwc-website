@@ -414,8 +414,14 @@ a:active {
   flex-direction: row;
   align-items: baseline;
   gap: 16px;
-  width: clamp(0px, 95vw, 1450px);
-  margin: auto;
+  /* Anchored a fixed distance from the screen edge (roughly matching the
+     sticky .project-toggle badge) instead of centering — centering was
+     compounding with the offset and pushing the title too far toward the
+     middle on wide screens. */
+  width: fit-content;
+  max-width: calc(95vw - 260px);
+  margin: 0;
+  margin-left: 260px;
   padding: 16px;
   box-sizing: border-box;
 }
