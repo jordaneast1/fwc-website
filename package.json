@@ -1,14 +1,14 @@
 {
   "author": {
-    "name": "Ed Hinrichsen",
-    "url": "https://www.edwardh.io"
+    "name": "Jordan East",
+    "url": "https://jordaneast.com.au"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edhinrichsen/retro-computer-website.git"
+    "url": "git+https://github.com/jordaneast1/fwc-website.git"
   },
   "license": "MIT",
-  "name": "retro-computer-website",
+  "name": "fwc-website",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
