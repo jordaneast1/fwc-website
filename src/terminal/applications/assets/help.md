@@ -2,17 +2,14 @@
 
 
 
+#
 # Help
-### EDSH is just like BASH except much more limited.
 
-## • Type*ls* to list directory contents
+## Maybe try ask some *questions?*
 
-## • Type*cd* to change directory
-
-## • Type*show* to render .md files
+## • Or type*about* to read more about us.
 
 ## • Use ↑ and ↓ keys to scroll
 
-### Tip: try typing "show -all"
-
-
+## Terminal code forked from Retro Computer Website by Ed Hinrichsen. 
+## Go check him out on github!

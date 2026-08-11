@@ -9,6 +9,8 @@ import show from "./show";
 import touch from "./touch";
 // @ts-ignore
 import helpMD from "./assets/help.md?raw";
+import aboutMD from "./assets/about.md?raw";
+
 
 export default function Applications(
   print: (s: string, md?: boolean) => void,
@@ -16,21 +18,26 @@ export default function Applications(
 ) {
   const help = (args: string[], options: string[]) => {
     let helpStr: string = helpMD;
-    Object.entries(apps).forEach((entry) => {
-      const [key, value] = entry;
-      helpStr += `### ${value.docs.name} - ${value.docs.short}\n`;
-    });
-    console.log(helpStr);
+    // Object.entries(apps).forEach((entry) => {
+    //   const [key, value] = entry;
+    //   helpStr += `### ${value.docs.name} - ${value.docs.short}\n`;
+    // });
+    // console.log(helpStr);
     print(helpStr, true);
   };
+
+  const about = (args: string[], options: string[]) => {
+    let str: string = aboutMD;
+    print(str, true);
+  };
   const apps = {
-    ls: ls(print, path),
-    cd: cd(print, path),
-    show: show(print, path),
+    //ls: ls(print, path),
+    //cd: cd(print, path),  
+    //show: show(print, path),
     echo: echo(print, path),
-    pwd: pwd(print, path),
-    mkdir: mkdir(print, path),
-    touch: touch(print, path),
+    //pwd: pwd(print, path),
+    //mkdir: mkdir(print, path),
+    //touch: touch(print, path),
     hello: hello(print, path),
   };
   const getApp = (
@@ -40,6 +47,8 @@ export default function Applications(
     if (app) return app.app;
 
     if (appName === "help") return help;
+
+    if (appName === "about") return about;
 
     return null;
   };

@@ -112,7 +112,7 @@ export default function Screen(
 
   const tick = (deltaTime: number, elapsedTime: number, scroll: number, blend:number, screenScale: number, smileScrollOffset: number) => {
     const invBlend = 1-blend;
-    const vidScale = 1.06;
+    const vidScale = 1.07;
     videoPlane.scale.set(vidScale,vidScale,vidScale)
     screenRenderEngine.cameraRTT.left = -0.1 * screenScale - .5 * invBlend;
     screenRenderEngine.cameraRTT.right = 1.496 * screenScale - .5 * invBlend;
