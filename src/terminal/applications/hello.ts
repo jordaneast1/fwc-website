@@ -17,7 +17,7 @@ export default function hello(
       return;
     }
 
-    print("\nHello, world!");
+    print("\nHello, how are you? I hope you are having a good day. If you are not, I hope it gets better soon.");
   };
   return { docs, app };
 }

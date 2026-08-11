@@ -237,6 +237,7 @@ p {
   padding: 16px;
   list-style-type: none;
   transition: all 0.3s;
+  color: #707070;
 }
 
 .credits, 
@@ -462,6 +463,23 @@ a:active {
 
 .project.expanded .project-hero {
   aspect-ratio: unset;
+}
+
+.hero-hover-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(18px, 18px);
+  z-index: 50;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  color: #ffffff;
+  font-family: "Roboto Mono", monospace;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .project-content {

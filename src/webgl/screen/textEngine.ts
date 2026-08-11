@@ -17,7 +17,7 @@ type FontInfo = {
 };
 
 const h1Font: FontInfo = (function () {
-  let size = 0.04;
+  let size = 0.03;
   let height = size;
   let width = size;
   let leading = height * 2;
@@ -26,7 +26,7 @@ const h1Font: FontInfo = (function () {
 })();
 
 const h2Font: FontInfo = (function () {
-  const size = 0.04;
+  const size = 0.03;
   const height = size;
   const width = size * 0.8;
   const leading = height * 2;
@@ -35,7 +35,7 @@ const h2Font: FontInfo = (function () {
 })();
 
 const h3Font: FontInfo = (function () {
-  const size = 0.03;
+  const size = 0.02;
   const height = size;
   const width = size * 0.8;
   const leading = height * 2.5;
@@ -43,10 +43,8 @@ const h3Font: FontInfo = (function () {
   return { font: undefined, size, height, width, leading, tracking };
 })();
 
-declare const screenWidth: number;
-
 const paragraphFont: FontInfo = (function () {
-  const size = 0.0275;
+  const size = 0.02;
   const height = size;
   const width = size * 0.8;
   const leading = height * 2.5;
@@ -55,7 +53,7 @@ const paragraphFont: FontInfo = (function () {
 })();
 
 const breakFont: FontInfo = (function () {
-  const size = 0.025;
+  const size = 0.01;
   const height = size;
   const width = size * 0.8;
   const leading = height * 1.6;
@@ -74,6 +72,47 @@ export default function ScreenTextEngine(
 
   const rootGroup = new THREE.Group();
   sceneRTT.add(rootGroup);
+
+  // Native width of the terminal in scene units — matches the RTT camera's
+  // default frustum (left: -0.1, right: 1.5) used in renderEngine.ts.
+  const baseScreenWidth = 1.6;
+  // Native aspect ratio of the terminal (matches the RTT render target,
+  // which is rendered at resolution * 1.33 x resolution).
+  const nativeAspect = 4 / 3;
+  let screenWidth = baseScreenWidth;
+
+  // Small constant nudge toward the middle, applied at every aspect ratio.
+  const globalOffsetX = 0.05;
+  // When the browser is narrower than the terminal's native aspect ratio,
+  // push the centering offset further than a plain proportional shift
+  // would — the text has to travel further to stay clear of the edges.
+  const narrowAccentuation = 1.5;
+
+  // Called when the browser window is resized. When the browser is
+  // narrower (taller) than the terminal's native aspect ratio, less of the
+  // terminal is actually visible on screen, so shrink the width used for
+  // word-wrap/line-length calculations to match what's visible, and shift
+  // the whole text block right to keep it centered instead of pinned to
+  // the left edge (which is what caused text to get cut off on the side).
+  //
+  // isMobile: when the layout has flipped to the portrait/mobile view, the
+  // aspect-driven width shrink + centering doesn't apply (the screen isn't
+  // laid out the same way), so skip it and just keep the native width.
+  function resize(browserAspect: number, isMobile: boolean = false) {
+    if (isMobile) {
+      screenWidth = baseScreenWidth;
+      rootGroup.position.x = globalOffsetX;
+      return;
+    }
+
+    const widthScale = Math.min(1, browserAspect / nativeAspect);
+    screenWidth = baseScreenWidth * widthScale;
+
+    let centeringOffset = (baseScreenWidth - screenWidth) / 2;
+    if (browserAspect < nativeAspect) centeringOffset *= narrowAccentuation;
+
+    rootGroup.position.x = globalOffsetX + centeringOffset;
+  }
 
   const textMaterial = new THREE.MeshBasicMaterial({ color: textColor });
 
@@ -676,7 +715,17 @@ export default function ScreenTextEngine(
     charNextLoc.y += h2Font.leading * newNumberOfInputLines;
   }
 
+  let scrollPos = rootGroup.position.y;
   let maxScroll = rootGroup.position.y;
+  let scrollYOffset = 0;
+
+  // rootGroup.position.y is a combination of the scroll position (clamped to
+  // [0, maxScroll]) and an additional, unclamped offset (e.g. for shifting
+  // the text out of the way when the smile comes into view).
+  function applyScrollPosition() {
+    rootGroup.position.y = scrollPos + scrollYOffset;
+  }
+
   function scroll(
     val: number,
     units: "lines" | "px",
@@ -687,14 +736,21 @@ export default function ScreenTextEngine(
   ) {
     let amount = val;
     if (units === "lines") amount *= h2Font.leading;
-    if (options.moveView) rootGroup.position.y += amount;
+    if (options.moveView) scrollPos += amount;
     if (options.updateMaxScroll) maxScroll += amount;
 
-    if (rootGroup.position.y < 0) rootGroup.position.y = 0;
-    if (rootGroup.position.y > maxScroll) rootGroup.position.y = maxScroll;
+    if (scrollPos < 0) scrollPos = 0;
+    if (scrollPos > maxScroll) scrollPos = maxScroll;
+
+    applyScrollPosition();
   }
   function scrollToEnd() {
-    if (rootGroup.position.y !== maxScroll) rootGroup.position.y = maxScroll;
+    if (scrollPos !== maxScroll) scrollPos = maxScroll;
+    applyScrollPosition();
+  }
+  function setScrollYOffset(offset: number) {
+    scrollYOffset = offset;
+    applyScrollPosition();
   }
 
   function placeImage(val: string) {
@@ -794,6 +850,8 @@ export default function ScreenTextEngine(
     placeText,
     scroll,
     scrollToEnd,
+    setScrollYOffset,
+    resize,
     freezeInput,
     rootGroup,
   };

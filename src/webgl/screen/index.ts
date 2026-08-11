@@ -43,7 +43,6 @@ export default function Screen(
       new THREE.MeshBasicMaterial({ color: 0x000000 })
     );
     sceneRTT.add(videoPlane);
-    videoPlane.scale.set(1.1,1.1,1.1)
     videoPlane.position.set(0.9, -0.5, -0.05);
     //1.496+0.4)/2
   
@@ -111,22 +110,29 @@ export default function Screen(
 
   Terminal(screenTextEngine);
 
-  const tick = (deltaTime: number, elapsedTime: number, scroll: number, blend:number, screenScale: number) => {
+  const tick = (deltaTime: number, elapsedTime: number, scroll: number, blend:number, screenScale: number, smileScrollOffset: number) => {
     const invBlend = 1-blend;
-    //videoPlane.scale.set(1,1,1)
+    const vidScale = 1.06;
+    videoPlane.scale.set(vidScale,vidScale,vidScale)
     screenRenderEngine.cameraRTT.left = -0.1 * screenScale - .5 * invBlend;
     screenRenderEngine.cameraRTT.right = 1.496 * screenScale - .5 * invBlend;
     // screenRenderEngine.cameraRTT.top = 0.1 * screenScale;
     // screenRenderEngine.cameraRTT.bottom = -1.1 * screenScale;
-    screenRenderEngine.cameraRTT.zoom = 1;
+    screenRenderEngine.cameraRTT.zoom = 1.0;
     screenRenderEngine.cameraRTT.updateProjectionMatrix();
 
     //smile fade in
-    console.log(scroll)
-    const smileScrollOffset = clamp(valMap(scroll, [0.5, 1], [0, 1]),0,1);
+    //console.log(scroll)
+
     smilePlane.material.opacity = smileScrollOffset;
     smilePlane.position.set(0.7, -1.5+smileScrollOffset, 0)
-    screenTextEngine.rootGroup.position.set(0,smileScrollOffset,0)
+    
+    const textScale = 1;
+    screenTextEngine.rootGroup.scale.set(textScale, textScale, textScale);
+
+    // Shift the terminal text up out of the way as the smile scrolls into place
+    const smileTextShift = 1;
+    screenTextEngine.setScrollYOffset(smileScrollOffset * smileTextShift);
 
     screenRenderEngine.tick(deltaTime, elapsedTime, scroll);
     screenTextEngine.tick(deltaTime, elapsedTime);

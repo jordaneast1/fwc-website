@@ -180,11 +180,19 @@ export default function WebGL() {
           [0.8, 1.8],
           [0, 2.5]
         );
+        screen.screenTextEngine.resize(
+          sizes.width / sizes.height,
+          sizes.portraitOffset > 0.5
+        );
       },
       { passive: true }
     );
 
     const screen = Screen(assists, renderer);
+    screen.screenTextEngine.resize(
+      sizes.width / sizes.height,
+      sizes.portraitOffset > 0.5
+    );
 
     const planelikeGeometry = new THREE.BoxGeometry(2, 2.7, 0.1);
     const plane = new THREE.Mesh(
@@ -258,12 +266,16 @@ export default function WebGL() {
 
       computerGroup.rotation.y = controlProps.computerAngle * zoomFac;
 
-      camera.position.x =
-        computerParallax.x * valMap(scroll, [0, 1], [0.2, 5]) * 0.1 +
-        camera.position.x * 0.9;
-      camera.position.y =
-        computerParallax.y * valMap(scroll, [0, 1], [0.2, 1.5]) * 0.1 +
-        camera.position.y * 0.9;
+      // Old damped version (eases toward target, ~10%/frame):
+      // camera.position.x =
+      //   computerParallax.x * valMap(scroll, [0, 1], [0.2, 5]) * 0.1 +
+      //   camera.position.x * 0.9;
+      // camera.position.y =
+      //   computerParallax.y * valMap(scroll, [0, 1], [0.2, 1.5]) * 0.1 +
+      //   camera.position.y * 0.9;
+
+      camera.position.x = computerParallax.x * valMap(scroll, [0, 1], [0.2, 5]);
+      camera.position.y = computerParallax.y * valMap(scroll, [0, 1], [0.2, 1.5]);
 
       camera.lookAt(new Vector3(0, 0, 0));
 
@@ -287,7 +299,10 @@ export default function WebGL() {
       const screenScale = 1.0+invBlend;
       assists.screenMesh.scale.set(screenScale,1.0,blend+0.01);
       assists.crtMesh.scale.set(crtScale,crtScale,crtScale);
-      screen.tick(deltaTime, elapsedTime, scroll, blend, screenScale);
+
+      const smileScrollOffset = clamp(valMap(scroll, [0.5, 1], [0, 1]), 0, 1);
+
+      screen.tick(deltaTime, elapsedTime, scroll, blend, screenScale, smileScrollOffset);
 
       renderer.setRenderTarget(null);
       renderer.render(scene, camera);

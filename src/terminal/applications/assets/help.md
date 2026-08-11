@@ -16,6 +16,3 @@
 ### Tip: try typing "show -all"
 
 
-## All commands
-### EDSH, version 0.2.1 
-

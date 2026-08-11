@@ -554,6 +554,7 @@ Friends With Computers is an artist collective composed of <a href="https://www.
       </div>
       <div>COPYRIGHT © 2026 Friends With Computers</div>
     </footer>
+    <div id="hero-hover-label" class="hero-hover-label">click to read more</div>
     <script>
       function closeMenu() {
         document.getElementsByTagName("nav")[0].classList.remove(["active"]);
@@ -587,6 +588,53 @@ Friends With Computers is an artist collective composed of <a href="https://www.
       document.addEventListener('DOMContentLoaded', positionCollapsedHeroes);
       window.addEventListener('load', positionCollapsedHeroes);
       window.addEventListener('resize', positionCollapsedHeroes);
+
+      // Small label that follows the cursor while hovering a project hero
+      // image, reading "click to read more/less" depending on whether that
+      // project is currently expanded.
+      function initHeroHoverLabels() {
+        const label = document.getElementById('hero-hover-label');
+        if (!label) return;
+
+        document.querySelectorAll('.project-hero').forEach((hero) => {
+          hero.addEventListener('mouseenter', () => {
+            label.style.opacity = '1';
+          });
+
+          hero.addEventListener('mousemove', (e) => {
+            const projectDiv = hero.closest('.project');
+            const isExpanded = projectDiv && projectDiv.classList.contains('expanded');
+            label.textContent = isExpanded ? 'click to read less' : 'click to read more';
+            label.style.left = `${e.clientX}px`;
+            label.style.top = `${e.clientY}px`;
+          });
+
+          hero.addEventListener('mouseleave', () => {
+            label.style.opacity = '0';
+          });
+        });
+
+        // Same label, over the WebGL canvas at the top: just a hint to
+        // scroll or type, no expanded state to check.
+        const canvas = document.querySelector('canvas.webgl');
+        if (canvas) {
+          canvas.addEventListener('mouseenter', () => {
+            label.style.opacity = '1';
+          });
+
+          canvas.addEventListener('mousemove', (e) => {
+            label.textContent = 'scroll or type';
+            label.style.left = `${e.clientX}px`;
+            label.style.top = `${e.clientY}px`;
+          });
+
+          canvas.addEventListener('mouseleave', () => {
+            label.style.opacity = '0';
+          });
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', initHeroHoverLabels);
 
       function toggleProject(element) {
         // Find the parent project div
